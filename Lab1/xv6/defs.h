@@ -124,7 +124,8 @@ void            yield(void);
 void            exit(int);
 //part2
 int             wait(int*);
-
+//part 3 int waitpid(int pid, int *status, int options)
+int             waitpid(int,int*,int);
 
 // swtch.S
 void            swtch(struct context**, struct context*);

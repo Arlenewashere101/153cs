@@ -4,7 +4,7 @@ struct rtcdate;
 // system calls
 int fork(void);
 //part 1
-int exit(int) __attribute__((noreturn));
+void exit(int) __attribute__((noreturn));
 //part 2
 int wait(int*);
 //part 3 int waitpid(int pid, int *status, int options)

@@ -343,11 +343,11 @@ waitpid(int pid, int *status, int options)
       havekids = 1;
       if(p->state == ZOMBIE){
         // Found one.
-        pid_1 = p->pid_1;
+        pid_1 = p->pid;
         kfree(p->kstack);
         p->kstack = 0;
         freevm(p->pgdir);
-        p->pid_1 = 0;
+        p->pid = 0;
         p->parent = 0;
         p->name[0] = 0;
         p->killed = 0;
@@ -357,7 +357,7 @@ waitpid(int pid, int *status, int options)
         int a;
         a = p->status;
         *status=a;
-        return pid;// process id that was terminated
+        return pid_1;// process id that was terminated
       }
     }
 

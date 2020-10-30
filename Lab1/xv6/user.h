@@ -8,7 +8,7 @@ int exit(int) __attribute__((noreturn));
 //part 2
 int wait(int*);
 //part 3 int waitpid(int pid, int *status, int options)
-int waitpid(int,int*,int);
+int waitpid(int, int*, int);
 
 int pipe(int*);
 int write(int, const void*, int);

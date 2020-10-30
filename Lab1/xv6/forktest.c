@@ -34,7 +34,7 @@ forktest(void)
   }
 
   for(; n > 0; n--){
-    if(wait(1) < 0){
+    if(wait(0) < 0){
       printf(1, "wait stopped early\n");
       exit(1);
     }

@@ -3,75 +3,87 @@
 
 int PScheduler(void);
 int test_donation(void);
-int test_ticktock(void);
+
 int main(int argc, char *argv[])
 {
     if (atoi(argv[1]) == 1)
       PScheduler();
     else if (atoi(argv[1]) == 2)
       test_donation();
-    else if (atoi(argv[1]) == 3)
-      test_ticktock();
     exit(0);
-}
-
-int test_ticktock(void){
-    int i,j,k;
-    int id, pid, ret_pid, exit_status, tik, tok; 
-    printf(1, " - Test performance: tik represents running time, tok represents waiting time.\n");
-    for (i = 0; i < 3; i++) {
-        pid = fork();
-        if (pid > 0) {
-            continue;
-        } else if ( pid == 0) {
-            for (j = 0; j < 50000; j++) {
-                for(k = 0; k < 10000; k++) {
-                    asm("nop"); 
-                }
-            }
-            id = gettiktok(&tik, &tok);
-            printf(1, " - proc #%d ticks = %d, tocks = %d\n", id, tik, tok);
-            exit(0);
-        } else {
-            printf(2," \n Error fork() \n");
-            exit(-1);
-        }
-    }
-
-    if(pid > 0) {
-        for (i = 0; i < 3; i++) {
-            ret_pid = wait(&exit_status);
-            printf(1, " - This is the parent: child with PID# %d has finished with status %d \n", ret_pid, exit_status); 
-        }
-    }
-	
-    return 0;
 }
 
 
 int test_donation(void){
  
     int pid, exit_status;
+    int d= 13;
     
-    printf(1, " - default priority is %d\n", getpriority(getpid()));
+    printf(1, " - default priority is %d\n", getpriority());
+    setpriority(getpid(), 22);
     pid = fork();
     if(pid == 0){
-      /*for(j = 0;j < 50000; j++){
-        for(k = 0; k < 10000; k++){
+      for(int j = 0;j < 50000; j++){
+        for(int k = 0; k < 10000; k++){
          asm("nop"); 
         }
-      }*/
-      printf(1, " - child #%d exit with priority %d\n", getpid(), getpriority(getpid()));
-      exit(0);
+      }
+    printf(1, " \n donating %d \n ",  d);
+    donate(getpid(), d);
+    printf(1, " - child #%d exit with priority %d\n", getpid(), getpriority());
+    exit(0);
     }
     if(pid > 0){
-      setpriority(10);
-      printf(1, "- this is parent #%d with priority%d\n", getpid(), getpriority(getpid()));
+      setpriority(getpid(), 0);
+      printf(1, "- this is parent #%d with priority%d\n", getpid(), getpriority());
       waitpid(pid, &exit_status, 0);
     }
     return 0;
-}    
-      
+}
+
+
+ 
+
+int DScheduler(int value){
+  int parent, pid, exit_status, i, j;
+
+  printf(1, " \n Testing priority donation \n ");
+  setpriority(getpid(), 20);
+  parent = getpid();
+  printf(1, " \n This is process %d with priority %d \n ", getpid(), getpriority() );
+  pid = fork();
+
+  if(pid > 0){
+    wait(&exit_status);
+    printf(1, " \n process %d now has priority %d after donation \n ", getpid(), getpriority() );
+  }
+
+
+  else if(pid == 0)
+  {
+    setpriority(getpid(), 10);
+    printf(1, " \n This is process %d with priority %d \n ", getpid(), getpriority() );
+    for(i = 0; i < 50000; i++){
+      for(j = 0; j < 10000; j++){
+        asm("nop");
+      }
+    }
+    printf(1, " \n process %d is now donating %d priority to process %d \n ", getpid(), d, getpid());
+    donate(parent, value);
+    for(i = 0; i < 50000; i++){
+      for(j = 0; j < 10000; j++){
+        asm("nop");
+      }
+    }
+    printf(1, " \n process %d now has priority %d after donation \n ", getpid(), getpriority() );
+    exit(0);
+  }
+
+
+  return 0;
+}
+
+
 int PScheduler(void){
 		 
     // Use this part to test the priority scheduler. Assuming that the priorities range between 0 to 31

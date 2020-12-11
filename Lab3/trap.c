@@ -77,6 +77,18 @@ trap(struct trapframe *tf)
             cpuid(), tf->cs, tf->eip);
     lapiceoi();
     break;
+ //
+  //  case T_PGFLT:;//lab3
+	// if(rcr2() <(KERNBASE-1-myproc()->stack_pg*PGSIZE)){
+  //   if(allocuvm(myproc()->pgdir, KERNBASE-1-(myproc()->stack_pg+1)*PGSIZE, KERNBASE-1-myproc()->stack_pg*PGSIZE)==0){
+  //     cprintf("allocuvm failed%d\n", myproc()->stack_pg);
+  //   exit();
+  //   }
+  //   myproc()->stack_pg += 1;
+  //   cprintf("allocuvm succeeded\ %d\n", myproc()->stack_pg);
+  //   return; 	
+  // }
+ 	// break;
 
   //PAGEBREAK: 13
   default:

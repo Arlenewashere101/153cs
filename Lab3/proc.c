@@ -196,6 +196,13 @@ fork(void)
     np->state = UNUSED;
     return -1;
   }
+
+  if((np->pgdir = copyuvm(curproc->pgdir, curproc->sz, curproc->stack_pg)) == 0){                  //ADDED LAB3
+    kfree(np->kstack);
+    np->kstack = 0;
+    np->state = UNUSED;
+    return -1;
+  }
   np->sz = curproc->sz;
   np->parent = curproc;
   *np->tf = *curproc->tf;

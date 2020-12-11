@@ -20,7 +20,7 @@ struct elfhdr {
   ushort shnum;
   ushort shstrndx;
 };
-
+ 
 // Program section header
 struct proghdr {
   uint type;

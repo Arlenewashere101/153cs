@@ -81,11 +81,11 @@ trap(struct trapframe *tf)
   case T_PGFLT:;
     if(rcr2() <(KERNBASE-1-myproc()->stack_pg*PGSIZE)){
       if(allocuvm(myproc()->pgdir, KERNBASE-1-(myproc()->stack_pg+1)*PGSIZE, KERNBASE-1-myproc()->stack_pg*PGSIZE)==0){
-        cprintf("allocuvm failed%d\n", myproc()->stack_pg);
+        cprintf("allocuvm failed\n");
         exit();
       }
       myproc()->stack_pg += 1;
-      cprintf("allocuvm succeeded\ %d\n", myproc()->stack_pg);
+      cprintf("allocuvm succeeded \n");
       return; 	
     }
     break;

@@ -1,0 +1,12 @@
+
+rm defs.h proc.c proc.h trap.c Makefile exec.c syscall.c vm.c
+
+cp -R /home/csmajs/agonz101/153cs/Lab3/lab3_test.c  /home/csmajs/agonz101/xv6_p
+cp -R /home/csmajs/agonz101/153cs/Lab3/Makefile  /home/csmajs/agonz101/xv6_p
+cp -R /home/csmajs/agonz101/153cs/Lab3/defs.h  /home/csmajs/agonz101/xv6_p
+cp -R /home/csmajs/agonz101/153cs/Lab3/proc.h  /home/csmajs/agonz101/xv6_p
+cp -R /home/csmajs/agonz101/153cs/Lab3/proc.c  /home/csmajs/agonz101/xv6_p
+cp -R /home/csmajs/agonz101/153cs/Lab3/trap.c  /home/csmajs/agonz101/xv6_p
+cp -R /home/csmajs/agonz101/153cs/Lab3/exec.c  /home/csmajs/agonz101/xv6_p
+cp -R /home/csmajs/agonz101/153cs/Lab3/syscall.c  /home/csmajs/agonz101/xv6_p
+cp -R /home/csmajs/agonz101/153cs/Lab3/vm.c  /home/csmajs/agonz101/xv6_p

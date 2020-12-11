@@ -77,18 +77,23 @@ trap(struct trapframe *tf)
             cpuid(), tf->cs, tf->eip);
     lapiceoi();
     break;
- //
-  //  case T_PGFLT:;//lab3
-	// if(rcr2() <(KERNBASE-1-myproc()->stack_pg*PGSIZE)){
-  //   if(allocuvm(myproc()->pgdir, KERNBASE-1-(myproc()->stack_pg+1)*PGSIZE, KERNBASE-1-myproc()->stack_pg*PGSIZE)==0){
-  //     cprintf("allocuvm failed%d\n", myproc()->stack_pg);
-  //   exit();
-  //   }
-  //   myproc()->stack_pg += 1;
-  //   cprintf("allocuvm succeeded\ %d\n", myproc()->stack_pg);
-  //   return; 	
-  // }
- 	// break;
+ 
+  case T_PGFLT:
+    if (tf->esp >= rcr2() && rcr2() < KERNBASE) {
+      uint curTop = KERNBASE - myproc()->stack_pg * PGSIZE;
+      if (allocuvm(myproc()->pgdir, PGROUNDDOWN(curTop - 1), curTop - 1)
+        == 0) {
+        cprintf("PGFLT: Page could not be allocated.\n");
+        exit();
+      }
+
+      myproc()->stack_pg++;
+      cprintf("PGFLT: %d pages currently allocated.\n", myproc()->stack_pg);
+    } else {
+      cprintf("PGFLT: Offending address is out of bounds.\n");
+      exit();
+    }
+    break;
 
   //PAGEBREAK: 13
   default:
